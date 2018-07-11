@@ -6,6 +6,8 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -28,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -333,6 +336,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                NotificationCompat.Builder mNotificationBuilder = new NotificationCompat
+                        .Builder(LoginActivity.this, MainActivity.CHANNEL_ID)
+                        .setSmallIcon(R.drawable.baseline_accessibility_new_black_18)
+                        .setContentTitle("Login success")
+                        .setContentText("You have been successfully logged in!")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.
+                        from(LoginActivity.this);
+                notificationManager.notify(0, mNotificationBuilder.build());
+
+
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
